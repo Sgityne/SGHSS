@@ -1,5 +1,8 @@
 package com.vidaplus.sghss.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -14,6 +17,7 @@ public class HistoricoClinico {
 
     @OneToOne
     @JoinColumn(name = "paciente_id")
+    @JsonManagedReference
     private Paciente paciente;
 
     private String descricao;
