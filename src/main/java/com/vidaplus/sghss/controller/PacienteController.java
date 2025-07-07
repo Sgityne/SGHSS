@@ -1,7 +1,6 @@
 package com.vidaplus.sghss.controller;
 
 import com.vidaplus.sghss.dto.PacienteDTO;
-import com.vidaplus.sghss.model.HistoricoClinico;
 import com.vidaplus.sghss.service.PacienteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -46,11 +45,5 @@ public class PacienteController {
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
         pacienteService.deletar(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/historico/{id}")
-    @PreAuthorize("hasRole('MEDICO')")
-    public ResponseEntity<HistoricoClinico> listarHistoricoPorPaciente(@PathVariable Long id) {
-        return ResponseEntity.ok(pacienteService.buscarHistoricoPorPaciente(id));
     }
 }

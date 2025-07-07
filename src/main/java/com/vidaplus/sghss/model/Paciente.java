@@ -1,14 +1,12 @@
 package com.vidaplus.sghss.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -38,8 +36,4 @@ public class Paciente {
 
     @Column(nullable = false, unique = true)
     private String email;
-
-    @OneToOne(mappedBy = "paciente", cascade = CascadeType.ALL)
-    @JsonBackReference
-    private HistoricoClinico historicoClinico;
 }

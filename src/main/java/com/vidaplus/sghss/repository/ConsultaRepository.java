@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface ConsultaRepository extends JpaRepository<Consulta, Long> {
     List<Consulta> findByPacienteId(Long pacienteId);
+    void deleteByPacienteId(Long pacienteId);
 }

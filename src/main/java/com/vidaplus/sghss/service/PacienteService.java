@@ -1,9 +1,8 @@
 package com.vidaplus.sghss.service;
 
 import com.vidaplus.sghss.dto.PacienteDTO;
-import com.vidaplus.sghss.model.HistoricoClinico;
 import com.vidaplus.sghss.model.Paciente;
-import com.vidaplus.sghss.repository.HistoricoClinicoRepository;
+import com.vidaplus.sghss.repository.ConsultaRepository;
 import com.vidaplus.sghss.repository.PacienteRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +17,7 @@ import java.util.Optional;
 public class PacienteService {
 
     private final PacienteRepository pacienteRepository;
-    private final HistoricoClinicoRepository historicoClinicoRepository;
+    private final ConsultaRepository consultaRepository;
     private final ModelMapper modelMapper;
 
     public List<PacienteDTO> listarTodos() {
@@ -37,11 +36,6 @@ public class PacienteService {
     @Transactional
     public PacienteDTO salvar(PacienteDTO pacienteDTO) {
         Paciente paciente = modelMapper.map(pacienteDTO, Paciente.class);
-
-        HistoricoClinico historicoClinico = new HistoricoClinico();
-        historicoClinico.setPaciente(paciente);
-        paciente.setHistoricoClinico(historicoClinico);
-
         paciente = pacienteRepository.save(paciente);
         return modelMapper.map(paciente, PacienteDTO.class);
     }
@@ -54,7 +48,6 @@ public class PacienteService {
         }
         Paciente pacienteNew = modelMapper.map(pacienteDTO, Paciente.class);
         pacienteNew.setId(id);
-        pacienteNew.setHistoricoClinico(pacienteOld.get().getHistoricoClinico());
         pacienteRepository.save(pacienteNew);
         return modelMapper.map(pacienteNew, PacienteDTO.class);
     }
@@ -64,11 +57,7 @@ public class PacienteService {
         if (!pacienteRepository.existsById(id)) {
             throw new RuntimeException("Paciente não encontrado");
         }
+        consultaRepository.deleteByPacienteId(id);
         pacienteRepository.deleteById(id);
-    }
-
-    public HistoricoClinico buscarHistoricoPorPaciente(Long id) {
-        return historicoClinicoRepository.findByPaciente_id(id)
-                .orElseThrow(() -> new RuntimeException("Paciente não encontrado"));
     }
 }

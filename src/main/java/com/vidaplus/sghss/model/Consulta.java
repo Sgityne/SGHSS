@@ -3,6 +3,8 @@ package com.vidaplus.sghss.model;
 import com.vidaplus.sghss.enums.StatusConsulta;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 
@@ -15,7 +17,7 @@ public class Consulta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "paciente_id", nullable = false)
     private Paciente paciente;
 

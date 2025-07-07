@@ -23,7 +23,6 @@ public class ConsultaService {
     private final PacienteRepository pacienteRepository;
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
-    private final HistoricoClinicoService historicoClinicoService;
 
     @Transactional
     public ConsultaDTO agendarConsulta(ConsultaDTO consultaDTO) {
@@ -39,8 +38,6 @@ public class ConsultaService {
         consulta.setStatus(StatusConsulta.AGENDADA);
 
         consultaRepository.save(consulta);
-
-        historicoClinicoService.registrar(consulta.getPaciente().getId(), "Consulta Agendada: " + medico.getNome());
         return modelMapper.map(consulta, ConsultaDTO.class);
     }
 
@@ -57,8 +54,6 @@ public class ConsultaService {
                 .orElseThrow(() -> new RuntimeException("Consulta não encontrada"));
 
         consulta.setStatus(StatusConsulta.CANCELADA);
-
-        historicoClinicoService.registrar(consulta.getPaciente().getId(), "Consulta Cancelada: " + consulta.getMedico().getNome());
         consultaRepository.save(consulta);
     }
 
