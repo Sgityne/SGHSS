@@ -3,6 +3,7 @@ package com.vidaplus.sghss.service;
 import com.vidaplus.sghss.dto.PacienteDTO;
 import com.vidaplus.sghss.model.Paciente;
 import com.vidaplus.sghss.repository.ConsultaRepository;
+import com.vidaplus.sghss.repository.ExameRepository;
 import com.vidaplus.sghss.repository.PacienteRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ public class PacienteService {
 
     private final PacienteRepository pacienteRepository;
     private final ConsultaRepository consultaRepository;
+    private final ExameRepository exameRepository;
     private final ModelMapper modelMapper;
 
     public List<PacienteDTO> listarTodos() {
@@ -58,6 +60,7 @@ public class PacienteService {
             throw new RuntimeException("Paciente não encontrado");
         }
         consultaRepository.deleteByPacienteId(id);
+        exameRepository.deleteByPacienteId(id);
         pacienteRepository.deleteById(id);
     }
 }
